@@ -42,3 +42,39 @@ function displayWord() {
 		playable = false;
 	}
 }
+
+
+// Update the wrong letters
+function updateWrongLettersEl() {
+	// Display wrong letters
+	wrongLettersEl.innerHTML = `
+    ${wrongLetters.length > 0 ? '<p>Wrong</p>' : ''}
+    ${wrongLetters.map(letter => `<span>${letter}</span>`)}
+  `;
+}
+// key down press
+window.addEventListener('keydown', e => {
+	if (playable) {
+		if (e.keyCode >= 65 && e.keyCode <= 90) {
+			const letter = e.key.toLowerCase();
+
+			if (selectedWord.includes(letter)) {
+				if (!correctLetters.includes(letter)) {
+					correctLetters.push(letter);
+
+					displayWord();
+				} else {
+					showNotification();
+				}
+			} else {
+				if (!wrongLetters.includes(letter)) {
+					wrongLetters.push(letter);
+
+					updateWrongLettersEl();
+				} else {
+					showNotification();
+				}
+			}
+		}
+	}
+});
